@@ -187,27 +187,209 @@ class Test_pset5(unittest.TestCase):
         self.assertEqual(current_9.val, "nine")
         self.assertEqual(current_11.val, "eleven")
 
+        self.assertTrue(current_7.has_l_child())
+        self.assertTrue(current_7.has_r_child())
+        self.assertTrue(current_4.has_l_child())
+        self.assertTrue(current_4.has_r_child())
+        self.assertTrue(current_10.has_l_child())
+        self.assertTrue(current_10.has_r_child())
+        self.assertTrue(current_1.has_l_child())
+        self.assertFalse(current_1.has_r_child())
+        self.assertTrue(current_6.has_l_child())
+        self.assertFalse(current_6.has_r_child())
+        self.assertFalse(current_8.has_l_child())
+        self.assertTrue(current_8.has_r_child())
+        self.assertTrue(current_12.has_l_child())
+        self.assertFalse(current_12.has_r_child())
+        self.assertFalse(current_0.has_l_child())
+        self.assertFalse(current_0.has_r_child())
+        self.assertFalse(current_5.has_l_child())
+        self.assertFalse(current_5.has_r_child())
+        self.assertFalse(current_9.has_l_child())
+        self.assertFalse(current_9.has_r_child())
+        self.assertFalse(current_11.has_l_child())
+        self.assertFalse(current_11.has_r_child())
 
     def test_contains_helper(self):
         bst = BinarySearchTree()
-        bst.insert(5, "five")
-        bst.insert(4, "four")
-        bst.insert(6, "six")
-        bst.insert(3, "three")
         bst.insert(7, "seven")
-        #             5
-        #            / \
-        #           4   6
-        #          /     \
-        #         3       7
-               
+        bst.insert(4, "four")
+        bst.insert(10, "ten")
+        bst.insert(1, "one")
+        bst.insert(6, "six")
+        bst.insert(8, "eight")
+        bst.insert(12, "twelve")
+        bst.insert(0, "zero")
+        bst.insert(5, "five")
+        bst.insert(9, "nine")
+        bst.insert(11, "eleven")
+        #              7
+        #           /     \
+        #          4       10
+        #         / \     / \
+        #        1   6   8   12
+        #       /    /   \   /
+        #      0    5     9 11
+        current_7 = bst.root
+        current_4 = current_7.l_child
+        current_10 = current_7.r_child
+        current_1 = current_4.l_child
+        current_6 = current_4.r_child
+        current_8 = current_10.l_child
+        current_12 = current_10.r_child
+        current_0 = current_1.l_child
+        current_5 = current_6.l_child
+        current_9 = current_8.r_child
+        current_11 = current_12.l_child
+        
+        act_bool = bst.contains_helper(current_7, 7)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains_helper(current_4, 4)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains_helper(current_10, 10)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains_helper(current_1, 1)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains_helper(current_6, 6)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains_helper(current_8, 8)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains_helper(current_12, 12)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains_helper(current_0, 0)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains_helper(current_5, 5)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains_helper(current_9, 9)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains_helper(current_11, 11)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains_helper(current_7, 100)
+        self.assertFalse(act_bool)
 
+        act_bool = bst.contains(7)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains(4)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains(10)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains(1)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains(6)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains(8)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains(12)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains(0)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains(5)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains(9)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains(11)
+        self.assertTrue(act_bool)
+        act_bool = bst.contains(100)
+        self.assertFalse(act_bool)
+        
+    def test_find_min_max(self):
+        bst = BinarySearchTree()
+        bst.insert(7, "seven")
+        bst.insert(4, "four")
+        bst.insert(10, "ten")
+        bst.insert(1, "one")
+        bst.insert(6, "six")
+        bst.insert(8, "eight")
+        bst.insert(12, "twelve")
+        bst.insert(0, "zero")
+        bst.insert(5, "five")
+        bst.insert(9, "nine")
+        bst.insert(11, "eleven")
+        #              7
+        #           /     \
+        #          4       10
+        #         / \     / \
+        #        1   6   8   12
+        #       /    /   \   /
+        #      0    5     9 11
 
+        for count in range(0, 5):
+            self.assertEqual(bst.find_min().key, 0)
+            self.assertEqual(bst.find_min().val, "zero")
+            self.assertEqual(bst.find_max().key, 12)
+            self.assertEqual(bst.find_max().val, "twelve")
 
+    def test_in_pre_post_order_list(self):
+        bst = BinarySearchTree()
+        bst.insert(7, "seven")
+        bst.insert(4, "four")
+        bst.insert(10, "ten")
+        bst.insert(1, "one")
+        bst.insert(6, "six")
+        bst.insert(8, "eight")
+        bst.insert(12, "twelve")
+        bst.insert(0, "zero")
+        bst.insert(5, "five")
+        bst.insert(9, "nine")
+        bst.insert(11, "eleven")
+        #              7
+        #           /     \
+        #          4       10
+        #         / \     / \
+        #        1   6   8   12
+        #       /    /   \   /
+        #      0    5     9 11
+        for count in range(0, 5): 
+            act_inorder_lst = bst.inorder_list()
+        exp_inorder_lst = [0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        self.assertEqual(act_inorder_lst, exp_inorder_lst)
 
+        for count in range(0, 5): 
+            act_preorder_lst = bst.preorder_list()
+        exp_preorder_lst = [7, 4, 1, 0, 6, 5, 10, 8, 9, 12, 11]
+        self.assertEqual(act_preorder_lst, exp_preorder_lst)
 
+        for count in range(0, 5): 
+            act_postorder_lst = bst.postorder_list()
+        exp_postorder_lst = [0, 1, 5, 6, 4, 9, 8, 11, 12, 10, 7]
+        self.assertEqual(act_postorder_lst, exp_postorder_lst)
 
+    def test_delete(self):
+        bst = BinarySearchTree()
 
+        found_node = bst.get(bst.root, 0)
+        self.assertEqual(found_node, None)
+
+        bst.insert(7, "seven")
+        bst.insert(4, "four")
+        bst.insert(10, "ten")
+        bst.insert(1, "one")
+        bst.insert(6, "six")
+        bst.insert(8, "eight")
+        bst.insert(12, "twelve")
+        bst.insert(0, "zero")
+        bst.insert(5, "five")
+        bst.insert(9, "nine")
+        bst.insert(11, "eleven")
+        #              7
+        #           /     \
+        #          4       10
+        #         / \     / \
+        #        1   6   8   12
+        #       /    /   \   /
+        #      0    5     9 11
+        
+        for count in range(0, 5):
+            found_node = bst.get(bst.root, 0)
+        self.assertEqual(found_node.key, 0)
+        self.assertEqual(found_node.val, "zero")
+
+        for count in range(0, 5):
+            found_node = bst.get(bst.root, 11)
+        self.assertEqual(found_node.key, 11)
+        self.assertEqual(found_node.val, "eleven")
+
+        
 
 
 
