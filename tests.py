@@ -43,6 +43,60 @@ class Test_pset5(unittest.TestCase):
         self.assertTrue(n.has_r_child())
         self.assertTrue(n.has_parent())
 
+    def test_is_l_r_child_and_is_leaf(self):
+
+        bst = BinarySearchTree()
+        bst.insert(7, "seven")
+        bst.insert(4, "four")
+        bst.insert(10, "ten")
+        bst.insert(1, "one")
+        bst.insert(6, "six")
+        bst.insert(8, "eight")
+        bst.insert(12, "twelve")
+        bst.insert(0, "zero")
+        bst.insert(5, "five")
+        bst.insert(9, "nine")
+        bst.insert(11, "eleven")
+        #              7
+        #           /     \
+        #          4       10
+        #         / \     / \
+        #        1   6   8   12
+        #       /    /   \   /
+        #      0    5     9 11
+        current_7 = bst.root
+        current_4 = current_7.l_child
+        current_10 = current_7.r_child
+        current_1 = current_4.l_child
+        current_6 = current_4.r_child
+        current_8 = current_10.l_child
+        current_12 = current_10.r_child
+        current_0 = current_1.l_child
+        current_5 = current_6.l_child
+        current_9 = current_8.r_child
+        current_11 = current_12.l_child
+
+        self.assertTrue(current_4.is_l_child())
+        self.assertTrue(current_10.is_r_child())
+        self.assertTrue(current_1.is_l_child())
+        self.assertTrue(current_6.is_r_child())
+        self.assertTrue(current_8.is_l_child())
+        self.assertTrue(current_12.is_r_child())
+        self.assertTrue(current_0.is_l_child())
+        self.assertTrue(current_9.is_r_child())
+        self.assertTrue(current_5.is_l_child())
+        self.assertTrue(current_11.is_l_child())
+        self.assertFalse(current_7.is_l_child())
+        self.assertFalse(current_7.is_r_child())
+
+        self.assertTrue(current_0.is_leaf())
+        self.assertTrue(current_5.is_leaf())
+        self.assertTrue(current_9.is_leaf())
+        self.assertTrue(current_11.is_leaf())
+        self.assertFalse(current_7.is_leaf())
+        self.assertFalse(current_4.is_leaf())
+        self.assertFalse(current_10.is_leaf())
+
     """ BinarySearchTree """
 
     def test_BST_init(self):
@@ -398,7 +452,7 @@ class Test_pset5(unittest.TestCase):
 
         found_node = bst.get(bst.root, 0)
         self.assertEqual(found_node, None)
-
+        
         bst.insert(7, "seven")
         bst.insert(4, "four")
         bst.insert(10, "ten")
@@ -417,7 +471,18 @@ class Test_pset5(unittest.TestCase):
         #        1   6   8   12
         #       /    /   \   /
         #      0    5     9 11
-        
+        current_7 = bst.root
+        current_4 = current_7.l_child
+        current_10 = current_7.r_child
+        current_1 = current_4.l_child
+        current_6 = current_4.r_child
+        current_8 = current_10.l_child
+        current_12 = current_10.r_child
+        current_0 = current_1.l_child
+        current_5 = current_6.l_child
+        current_9 = current_8.r_child
+        current_11 = current_12.l_child
+
         found_node = bst.get(bst.root, 0)
         self.assertEqual(found_node.key, 0)
         self.assertEqual(found_node.val, "zero")
@@ -426,7 +491,83 @@ class Test_pset5(unittest.TestCase):
         self.assertEqual(found_node.key, 11)
         self.assertEqual(found_node.val, "eleven")
 
+        found_node = bst.get(bst.root, 4)
+        self.assertEqual(found_node.key, 4)
+        self.assertEqual(found_node.val, "four")
+
+        # test delet when the target node is leaf
+        bst.delete(0)
+        self.assertEqual(current_1.l_child, None)
+        self.assertFalse(bst.contains(0))
+        bst.delete(5)
+        self.assertEqual(current_1.l_child, None)
+        self.assertFalse(bst.contains(5))
+        bst.delete(9)
+        self.assertEqual(current_1.l_child, None)
+        self.assertFalse(bst.contains(9))
+        bst.delete(11)
+        self.assertEqual(current_1.l_child, None)
+        self.assertFalse(bst.contains(11))
+        bst.delete(1)
+        self.assertEqual(current_1.l_child, None)
+        self.assertFalse(bst.contains(1))
+        bst.delete(6)
+        self.assertEqual(current_1.l_child, None)
+        self.assertFalse(bst.contains(6))
+        bst.delete(8)
+        self.assertEqual(current_1.l_child, None)
+        self.assertFalse(bst.contains(8))
+        bst.delete(12)
+        self.assertEqual(current_1.l_child, None)
+        self.assertFalse(bst.contains(12))
+        bst.delete(4)
+        self.assertEqual(current_1.l_child, None)
+        self.assertFalse(bst.contains(4))
+        bst.delete(10)
+        self.assertEqual(current_1.l_child, None)
+        self.assertFalse(bst.contains(10))
+        bst.delete(7)
+        self.assertEqual(current_1.l_child, None)
+        self.assertFalse(bst.contains(7))
+        self.assertEqual(bst.root, None)
+
+
+        # test when the target node has one child
+          
+        bst = BinarySearchTree()
         
+        bst.insert(7, "seven")
+        bst.insert(4, "four")
+        bst.insert(10, "ten")
+        bst.insert(1, "one")
+        bst.insert(6, "six")
+        bst.insert(8, "eight")
+        bst.insert(12, "twelve")
+        bst.insert(0, "zero")
+        bst.insert(5, "five")
+        bst.insert(9, "nine")
+        bst.insert(11, "eleven")
+        #              7
+        #           /     \
+        #          4       10
+        #         / \     / \
+        #        1   6   8   12
+        #       /    /   \   /
+        #      0    5     9 11
+        current_7 = bst.root
+        current_4 = current_7.l_child
+        current_10 = current_7.r_child
+        current_1 = current_4.l_child
+        current_6 = current_4.r_child
+        current_8 = current_10.l_child
+        current_12 = current_10.r_child
+        current_0 = current_1.l_child
+        current_5 = current_6.l_child
+        current_9 = current_8.r_child
+        current_11 = current_12.l_child
+
+
+
 
 
 
