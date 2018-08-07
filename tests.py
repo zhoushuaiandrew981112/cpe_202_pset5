@@ -295,11 +295,26 @@ class Test_pset5(unittest.TestCase):
     def test_find_min_max(self):
         bst = BinarySearchTree()
         bst.insert(7, "seven")
+
+        self.assertEqual(bst.find_max().key, 7)
+        self.assertEqual(bst.find_max().val, "seven")
+
         bst.insert(4, "four")
         bst.insert(10, "ten")
+
+
+        self.assertEqual(bst.find_min().key, 4)
+        self.assertEqual(bst.find_min().val, "four")
+        self.assertEqual(bst.find_max().key, 10)
+        self.assertEqual(bst.find_max().val, "ten")
+
         bst.insert(1, "one")
         bst.insert(6, "six")
         bst.insert(8, "eight")
+
+        self.assertEqual(bst.find_min().key, 1)
+        self.assertEqual(bst.find_min().val, "one")
+
         bst.insert(12, "twelve")
         bst.insert(0, "zero")
         bst.insert(5, "five")
@@ -313,21 +328,47 @@ class Test_pset5(unittest.TestCase):
         #       /    /   \   /
         #      0    5     9 11
 
-        for count in range(0, 5):
-            self.assertEqual(bst.find_min().key, 0)
-            self.assertEqual(bst.find_min().val, "zero")
-            self.assertEqual(bst.find_max().key, 12)
-            self.assertEqual(bst.find_max().val, "twelve")
+        self.assertEqual(bst.find_min().key, 0)
+        self.assertEqual(bst.find_min().val, "zero")
+        self.assertEqual(bst.find_max().key, 12)
+        self.assertEqual(bst.find_max().val, "twelve")
+        
 
     def test_in_pre_post_order_list(self):
         bst = BinarySearchTree()
         bst.insert(7, "seven")
         bst.insert(4, "four")
+
+        act_inorder_lst = bst.inorder_list()
+        exp_inorder_lst = [4, 7]
+        self.assertEqual(act_inorder_lst, exp_inorder_lst)
+
+        act_preorder_lst = bst.preorder_list()
+        exp_preorder_lst = [7, 4]
+        self.assertEqual(act_preorder_lst, exp_preorder_lst)
+
+        act_postorder_lst = bst.postorder_list()
+        exp_postorder_lst = [4, 7]
+        self.assertEqual(act_postorder_lst, exp_postorder_lst)
+
         bst.insert(10, "ten")
         bst.insert(1, "one")
         bst.insert(6, "six")
         bst.insert(8, "eight")
         bst.insert(12, "twelve")
+
+        act_inorder_lst = bst.inorder_list()
+        exp_inorder_lst = [1, 4, 6, 7, 8, 10, 12]
+        self.assertEqual(act_inorder_lst, exp_inorder_lst)
+
+        act_preorder_lst = bst.preorder_list()
+        exp_preorder_lst = [7, 4, 1, 6, 10, 8, 12]
+        self.assertEqual(act_preorder_lst, exp_preorder_lst)
+
+        act_postorder_lst = bst.postorder_list()
+        exp_postorder_lst = [1, 6, 4, 8, 12, 10, 7]
+        self.assertEqual(act_postorder_lst, exp_postorder_lst)
+
         bst.insert(0, "zero")
         bst.insert(5, "five")
         bst.insert(9, "nine")
@@ -339,18 +380,16 @@ class Test_pset5(unittest.TestCase):
         #        1   6   8   12
         #       /    /   \   /
         #      0    5     9 11
-        for count in range(0, 5): 
-            act_inorder_lst = bst.inorder_list()
+
+        act_inorder_lst = bst.inorder_list()
         exp_inorder_lst = [0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         self.assertEqual(act_inorder_lst, exp_inorder_lst)
 
-        for count in range(0, 5): 
-            act_preorder_lst = bst.preorder_list()
+        act_preorder_lst = bst.preorder_list()
         exp_preorder_lst = [7, 4, 1, 0, 6, 5, 10, 8, 9, 12, 11]
         self.assertEqual(act_preorder_lst, exp_preorder_lst)
 
-        for count in range(0, 5): 
-            act_postorder_lst = bst.postorder_list()
+        act_postorder_lst = bst.postorder_list()
         exp_postorder_lst = [0, 1, 5, 6, 4, 9, 8, 11, 12, 10, 7]
         self.assertEqual(act_postorder_lst, exp_postorder_lst)
 
@@ -379,13 +418,11 @@ class Test_pset5(unittest.TestCase):
         #       /    /   \   /
         #      0    5     9 11
         
-        for count in range(0, 5):
-            found_node = bst.get(bst.root, 0)
+        found_node = bst.get(bst.root, 0)
         self.assertEqual(found_node.key, 0)
         self.assertEqual(found_node.val, "zero")
 
-        for count in range(0, 5):
-            found_node = bst.get(bst.root, 11)
+        found_node = bst.get(bst.root, 11)
         self.assertEqual(found_node.key, 11)
         self.assertEqual(found_node.val, "eleven")
 
