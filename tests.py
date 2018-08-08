@@ -670,7 +670,42 @@ class Test_pset5(unittest.TestCase):
         current_9 = current_8.r_child
         current_11 = current_12.l_child
         
-        
+        succ_node = bst.find_succ(current_7) 
+        self.assertEqual(succ_node.key, 8)
+        succ_node = bst.find_succ(current_4) 
+        self.assertEqual(succ_node.key, 5)
+        succ_node = bst.find_succ(current_1) 
+        self.assertEqual(succ_node.key, 4)
+
+        bst = BinarySearchTree()
+        bst.insert(11, "elven")
+        bst.insert(6, "six")
+        bst.insert(4, "four")
+        bst.insert(10, "ten")
+        bst.insert(8, "eight")
+        bst.insert(9, "nine")
+        current_11 = bst.root
+        current_6 = current_11.l_child
+        current_10 = current_6.r_child
+        #                 11
+        #                /
+        #              6
+        #            /   \
+        #           4     10
+        #                 / 
+        #                8  
+        #                \  
+        #                 9 
+        succ_node = bst.find_succ(current_10) 
+        self.assertEqual(succ_node.key, 11)
+
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":

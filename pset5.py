@@ -103,6 +103,44 @@ class BinarySearchTree:
             return self.get(current.l_child, key)
 
 
+    def find_succ(self, t_node):
+        succ = None
+        if t_node.has_r_child():
+            succ = t_node.r_child
+            while succ.has_l_child():
+                succ = succ.l_child
+        else:
+           if t_node.parent != None:
+               if t_node.is_l_child():
+                   succ = t_node.parent
+               else:
+                   t_node.parent.r_child = None
+                   succ = self.find_succ(t_node.parent)
+                   t_node.parent.r_child = t_node
+        return succ
+
+
+    def splice_out(self, succ):
+        if succ.is_leaf():
+            if succ.is_l_child():
+                succ.parent.l_child = None
+            else:
+                succ.parent.r_child = None
+        elif succ.l_child != None or succ.r_child != None:
+            if self.has_l_child():
+                if succ.is_l_child():
+                    succ.parent.l_child = succ.l_child
+                else:
+                    succ.parent.r_child = succ.l_child
+                succ.l_child.parent = succ.parent
+            else:
+                if succ.is_l_child():
+                    succ.parent.l_child = succ.r_child
+                else:
+                    succ.parent.r_child = self.r_child
+                succ.r_child.parent = succ.parent 
+
+
     def remove_if_is_leaf(self, t_node):
         if t_node.is_l_child():
             t_node.parent.l_child = None
@@ -134,20 +172,28 @@ class BinarySearchTree:
                 t_node.r_child.l_child, t_node.r_child.r_child)
 
 
-    def remove_if_has_one_child(self, t_node):
+    def remove_has_one_child(self, t_node):
         if t_node.has_l_child():
             self.remove_has_l_child(t_node)
         elif t_node.has_r_child(): 
             self.remove_has_r_child(t_node)
+
+    def remove_has_both_children(self, t_node):
+        succ = self.find_succ(t_node)
+        self.splice_out(succ)
+        t_node.key = succ.key
+        t_node.val = succ.val
 
 
     def remove(self, t_node):
         if t_node.is_leaf():
             self.remove_if_is_leaf(t_node)
         elif t_node.has_one_child():
-            self.remove_if_has_one_child(t_node)         
- 
+            self.remove_has_one_child(t_node)         
+        else:
+            self.remove_has_both_children(t_node)
 
+ 
     def delete(self, key):
         if self.root.l_child == None and self.root.r_child == None:
             self.root = None
