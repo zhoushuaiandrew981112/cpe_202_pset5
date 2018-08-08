@@ -97,6 +97,67 @@ class Test_pset5(unittest.TestCase):
         self.assertFalse(current_4.is_leaf())
         self.assertFalse(current_10.is_leaf())
 
+    def test_has_one_child(self):
+
+        bst = BinarySearchTree()
+        bst.insert(7, "seven")
+        bst.insert(4, "four")
+        bst.insert(10, "ten")
+        bst.insert(1, "one")
+        bst.insert(6, "six")
+        bst.insert(8, "eight")
+        bst.insert(12, "twelve")
+        bst.insert(0, "zero")
+        bst.insert(5, "five")
+        bst.insert(9, "nine")
+        bst.insert(11, "eleven")
+        #              7
+        #           /     \
+        #          4       10
+        #         / \     / \
+        #        1   6   8   12
+        #       /    /   \   /
+        #      0    5     9 11
+        current_7 = bst.root
+        current_4 = current_7.l_child
+        current_10 = current_7.r_child
+        current_1 = current_4.l_child
+        current_6 = current_4.r_child
+        current_8 = current_10.l_child
+        current_12 = current_10.r_child
+        current_0 = current_1.l_child
+        current_5 = current_6.l_child
+        current_9 = current_8.r_child
+        current_11 = current_12.l_child
+
+        self.assertTrue(current_1.has_one_child())
+        self.assertTrue(current_6.has_one_child())
+        self.assertTrue(current_8.has_one_child())
+        self.assertTrue(current_12.has_one_child())
+
+        self.assertFalse(current_7.has_one_child())
+        self.assertFalse(current_4.has_one_child())
+        self.assertFalse(current_10.has_one_child())
+        self.assertFalse(current_0.has_one_child())
+        self.assertFalse(current_5.has_one_child())
+        self.assertFalse(current_9.has_one_child())
+        self.assertFalse(current_11.has_one_child())
+
+    def test_replace_node_data(self):
+        n_l = TreeNode(0, "zero")
+        n_r = TreeNode(5, "five")
+        n_p = TreeNode(4, "four")
+        n_t = TreeNode(3, "three",n_p ,n_l, n_r)
+
+        new_n_l = TreeNode(1, "one")
+        new_n_r = TreeNode(6, "six")
+        n_t.replace_node_data(10, "ten", new_n_l, new_n_r)
+
+        self.assertEqual(n_t.key, 10)
+        self.assertEqual(n_t.val, "ten")
+        self.assertEqual(n_t.l_child, new_n_l)
+        self.assertEqual(n_t.r_child, new_n_r)
+
     """ BinarySearchTree """
 
     def test_BST_init(self):
@@ -566,9 +627,50 @@ class Test_pset5(unittest.TestCase):
         current_9 = current_8.r_child
         current_11 = current_12.l_child
 
+        bst.delete(1)
+        self.assertEqual(current_4.l_child.key, 0)
+        bst.delete(6)
+        self.assertEqual(current_4.r_child.key, 5)
+        bst.delete(8)
+        self.assertEqual(current_10.l_child.key, 9)
+        bst.delete(12)
+        self.assertEqual(current_10.r_child.key, 11)
 
+        # test when the target node has two children
 
-
+        bst = BinarySearchTree()
+        
+        bst.insert(7, "seven")
+        bst.insert(4, "four")
+        bst.insert(10, "ten")
+        bst.insert(1, "one")
+        bst.insert(6, "six")
+        bst.insert(8, "eight")
+        bst.insert(12, "twelve")
+        bst.insert(0, "zero")
+        bst.insert(5, "five")
+        bst.insert(9, "nine")
+        bst.insert(11, "eleven")
+        #              7
+        #           /     \
+        #          4       10
+        #         / \     / \
+        #        1   6   8   12
+        #       /    /   \   /
+        #      0    5     9 11
+        current_7 = bst.root
+        current_4 = current_7.l_child
+        current_10 = current_7.r_child
+        current_1 = current_4.l_child
+        current_6 = current_4.r_child
+        current_8 = current_10.l_child
+        current_12 = current_10.r_child
+        current_0 = current_1.l_child
+        current_5 = current_6.l_child
+        current_9 = current_8.r_child
+        current_11 = current_12.l_child
+        
+        
 
 
 if __name__ == "__main__":
