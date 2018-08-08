@@ -698,10 +698,17 @@ class Test_pset5(unittest.TestCase):
         #                 9 
         succ_node = bst.find_succ(current_10) 
         self.assertEqual(succ_node.key, 11)
+        bst.delete(11)
+        self.assertFalse(bst.contains(11))
+        bst.delete(4)
+        bst.delete(10)
+        self.assertFalse(bst.contains(10))
+        bst.delete(6)
+        self.assertFalse(bst.contains(6))
+        bst.delete(8)
+        self.assertFalse(bst.contains(8))
 
-
-
-
+        bst = BinarySearchTree()
 
 
 
